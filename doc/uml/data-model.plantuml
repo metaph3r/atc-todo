@@ -1,0 +1,8 @@
+@startuml data model
+
+entity todo {
+    id : int
+    todo : String
+}
+
+@enduml

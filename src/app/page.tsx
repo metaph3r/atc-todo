@@ -1,19 +1,19 @@
-"use client"
+import { createTodo } from '@/actions/actions';
+import prisma from '@/lib/db';
 
-import { useState } from 'react';
-import { ToDo } from './todo';
-
-export default function Page() {
-  const [toDo, setToDo] = useState<ToDo>(new ToDo());
-  const [toDos, setToDos] = useState<ToDo[]>([]);
+export default async function Page() {
+  const todos = await prisma.todo.findMany();
 
   return (
     <main>
       <h1>Hello World!</h1>
-      <input className='border-2' onChange={e => setToDo({ todo: e.target.value })} />
-      <button onClick={() => { setToDos([...toDos, toDo]) }}>Add ToDo</button>
+      <form action={createTodo}>
+        <input type='text' name='todo' placeholder='ToDo' className='border-2' />
+        <button type='submit'>Add ToDo</button>
+      </form>
       <ul>{
-        toDos.map(toDo => <li>{toDo.todo}</li>)}</ul>
+        todos.map(toDo => <li>{toDo.todo}</li>)}
+      </ul>
     </main>
   );
 }
